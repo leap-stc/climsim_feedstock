@@ -4,6 +4,6 @@ tags:
   - my-custom-tag
   - zarr
 stores:
-  - id: "climsim_lowres_mli"
+  - id: "climsim-lowres-mli"
     name: "ClimSim Lowres mli"
     url: "gs://leap-persistent-ro/data-library/feedstocks/climsim_feedstock/climsim_lowres_mli.zarr"
