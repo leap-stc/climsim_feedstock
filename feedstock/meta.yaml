@@ -2,7 +2,7 @@ title: "ClimSim"
 description: >
   "Analysis-ready optimized ClimSim data"
 recipes:
-  - id: "climsim_lowres_mli"
+  - id: "climsim-lowres-mli"
     object: "recipe:climsim_lowres_mli"
 provenance:
   providers:
