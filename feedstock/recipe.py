@@ -216,5 +216,5 @@ climsim_lowres_mli = (
     | InjectAttrs()
     | ConsolidateDimensionCoordinates()
     | ConsolidateMetadata()
-    | Copy(target=catalog_store_urls["climsim_lowres_mli"])
+    | Copy(target=catalog_store_urls["climsim-lowres-mli"])
 )
