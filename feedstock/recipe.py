@@ -212,7 +212,7 @@ climsim_lowres_mli = (
     | ExpandTimeDimAndAddMetadata()
     | StoreToZarr(
         store_name="climsim-lowres-mli.zarr",
-        target_chunks={"time": 300},
+        target_chunks={"time": 600},
         combine_dims=lowres_mli_pattern.combine_dim_keys,
     )
     | InjectAttrs()
