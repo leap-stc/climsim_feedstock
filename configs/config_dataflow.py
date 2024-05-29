@@ -6,8 +6,9 @@ FEEDSTOCK_NAME = repo_path.split('/')[-1]
 
 c.Bake.prune = 0
 c.Bake.bakery_class = "pangeo_forge_runner.bakery.dataflow.DataflowBakery"
-c.DataflowBakery.use_dataflow_prime = True
-c.DataflowBakery.max_workers = 50
+c.DataflowBakery.use_dataflow_prime = False
+c.DataflowBakery.machine_type = n2_highmen_16
+c.DataflowBakery.max_workers = 10
 c.DataflowBakery.use_public_ips = True
 c.DataflowBakery.service_account_email = (
     "leap-community-bakery@leap-pangeo.iam.gserviceaccount.com"
