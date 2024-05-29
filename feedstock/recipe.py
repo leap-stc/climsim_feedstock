@@ -194,6 +194,7 @@ class ExpandTimeDimAndAddMetadata(beam.PTransform):
 
 times = [t for t in generate_times()]
 # Debug this recipe by running fewer times
+times = [0:90000]
 concat_dim = ConcatDim("time", keys=times)
 
 lowres_mli_make_url = functools.partial(make_url, ds_type="mli")
