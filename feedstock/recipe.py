@@ -193,6 +193,8 @@ class ExpandTimeDimAndAddMetadata(beam.PTransform):
 
 
 times = [t for t in generate_times()]
+# Debug this recipe by running fewer times
+times = times[0:600]
 concat_dim = ConcatDim("time", keys=times)
 
 lowres_mli_make_url = functools.partial(make_url, ds_type="mli")
@@ -204,7 +206,7 @@ climsim_lowres_mli = (
         # FIXME: Get files to open without `copy_to_local=True`
         # Related: what is the filetype? Looks like netcdf3, but for some reason
         # `scipy` backend can't open them, and `netcdf4` can?
-        copy_to_local=True,
+        # copy_to_local=True,
         xarray_open_kwargs=dict(engine="netcdf4"),
     )
     | ExpandTimeDimAndAddMetadata()
