@@ -205,7 +205,9 @@ climsim_lowres_mli = (
     beam.Create(lowres_mli_pattern.items())
     | CheckpointFileTransfer(
         transfer_target="gs://leap-scratch/data-library/feedstocks/cache_concurrent",
-        max_executors=10)
+        max_executors=10,
+        concurrency_per_executor=4
+        )
     | OpenURLWithFSSpec(cache=None)
     | OpenWithXarray(
         # FIXME: Get files to open without `copy_to_local=True`
