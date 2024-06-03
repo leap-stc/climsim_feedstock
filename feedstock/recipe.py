@@ -16,6 +16,7 @@ from pangeo_forge_recipes.transforms import (
     StoreToZarr,
     ConsolidateMetadata,
     ConsolidateDimensionCoordinates,
+    CheckpointFileTransfer,
 )
 
 #######################################
@@ -194,14 +195,18 @@ class ExpandTimeDimAndAddMetadata(beam.PTransform):
 
 times = [t for t in generate_times()]
 # Debug this recipe by running fewer times
-times = times[0:90000]
+# times = times[0:90000]
+times = times[0:20000]
 concat_dim = ConcatDim("time", keys=times)
 
 lowres_mli_make_url = functools.partial(make_url, ds_type="mli")
 lowres_mli_pattern = FilePattern(lowres_mli_make_url, concat_dim)
 climsim_lowres_mli = (
     beam.Create(lowres_mli_pattern.items())
-    | OpenURLWithFSSpec(max_concurrency=20)
+    | CheckpointFileTransfer(
+        transfer_target="gs://leap-scratch/data-library/feedstocks/cache_concurrent",
+        max_executors=10)
+    | OpenURLWithFSSpec(cache=None)
     | OpenWithXarray(
         # FIXME: Get files to open without `copy_to_local=True`
         # Related: what is the filetype? Looks like netcdf3, but for some reason
