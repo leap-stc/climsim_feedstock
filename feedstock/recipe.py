@@ -208,10 +208,11 @@ climsim_lowres_mli = (
     beam.Create(lowres_mli_pattern.items())
     | CheckpointFileTransfer(
         transfer_target=cache_target,
-        max_executors=2,
-        concurrency_per_executor=8
+        max_executors=5,
+        concurrency_per_executor=10
+        fsspec_sync_patch=True,
         )
-    | OpenURLWithFSSpec(cache=None)
+    | OpenURLWithFSSpec(cache=None, fsspec_sync_patch=True)
     | OpenWithXarray(
         # FIXME: Get files to open without `copy_to_local=True`
         # Related: what is the filetype? Looks like netcdf3, but for some reason
