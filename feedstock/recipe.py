@@ -196,9 +196,6 @@ class ExpandTimeDimAndAddMetadata(beam.PTransform):
 
 
 times = [t for t in generate_times()]
-# Debug this recipe by running fewer times
-# times = times[0:90000]
-times = times[0:20000]
 concat_dim = ConcatDim("time", keys=times)
 cache_target = CacheFSSpecTarget(
     fs = gcsfs.GCSFileSystem(),
