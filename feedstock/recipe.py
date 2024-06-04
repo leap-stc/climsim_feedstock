@@ -212,7 +212,7 @@ climsim_lowres_mli = (
     | CheckpointFileTransfer(
         transfer_target=cache_target,
         max_executors=10,
-        concurrency_per_executor=4
+        concurrency_per_executor=10
         )
     | OpenURLWithFSSpec(cache=None)
     | OpenWithXarray(
