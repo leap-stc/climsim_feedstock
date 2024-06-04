@@ -201,7 +201,7 @@ times = [t for t in generate_times()]
 times = times[0:20000]
 concat_dim = ConcatDim("time", keys=times)
 cache_target = CacheFSSpecTarget(
-    fs = gcsfs.GCSFileSystem,
+    fs = gcsfs.GCSFileSystem(),
     root_path="gs://leap-scratch/data-library/feedstocks/cache_concurrent"
 )
 
