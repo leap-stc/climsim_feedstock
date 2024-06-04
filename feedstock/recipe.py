@@ -18,10 +18,12 @@ from pangeo_forge_recipes.transforms import (
     ConsolidateDimensionCoordinates,
     CheckpointFileTransfer,
 )
+from pangeo_forge_recipes.storage import CacheFSSpecTarget
 
 #######################################
 import datetime as dt
 import functools
+import gcsfs
 
 import cftime
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
@@ -198,13 +200,17 @@ times = [t for t in generate_times()]
 # times = times[0:90000]
 times = times[0:20000]
 concat_dim = ConcatDim("time", keys=times)
+cache_target = CacheFSSpecTarget(
+    fs = gcsfs.GCSFileSystem,
+    root_path="gs://leap-scratch/data-library/feedstocks/cache_concurrent"
+)
 
 lowres_mli_make_url = functools.partial(make_url, ds_type="mli")
 lowres_mli_pattern = FilePattern(lowres_mli_make_url, concat_dim)
 climsim_lowres_mli = (
     beam.Create(lowres_mli_pattern.items())
     | CheckpointFileTransfer(
-        transfer_target="gs://leap-scratch/data-library/feedstocks/cache_concurrent",
+        transfer_target=cache_target,
         max_executors=10,
         concurrency_per_executor=4
         )
