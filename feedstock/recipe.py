@@ -208,7 +208,7 @@ climsim_lowres_mli = (
     beam.Create(lowres_mli_pattern.items())
     | CheckpointFileTransfer(
         transfer_target=cache_target,
-        max_executors=5,
+        max_executors=50,
         concurrency_per_executor=10,
         fsspec_sync_patch=True,
         )
