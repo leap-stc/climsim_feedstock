@@ -208,8 +208,8 @@ climsim_lowres_mli = (
     beam.Create(lowres_mli_pattern.items())
     | CheckpointFileTransfer(
         transfer_target=cache_target,
-        max_executors=10,
-        concurrency_per_executor=10
+        max_executors=2,
+        concurrency_per_executor=8
         )
     | OpenURLWithFSSpec(cache=None)
     | OpenWithXarray(
