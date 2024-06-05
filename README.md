@@ -1,4 +1,4 @@
-# LEAP Template Feedstock
+# Climsim Feedstock
 This repository serves as template/documentation/testing ground for Leap-Pangeo Data Library Feedstocks.
 
 ## Setup
