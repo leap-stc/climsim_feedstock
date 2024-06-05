@@ -4,6 +4,8 @@ description: >
 recipes:
   - id: "climsim-lowres-mli"
     object: "recipe:climsim_lowres_mli"
+  - id: "climsim-lowres-mlo"
+    object: "recipe:climsim_lowres_mlo"
 provenance:
   providers:
     - name: "Hugging Face"
@@ -22,3 +24,6 @@ maintainers:
   - name: "Qingyuan Yang"
     orcid: "https://orcid.org/0000-0002-5631-889X"
     github: yiqioyang
+  - name: "Julius Busecke"
+    orcid: "https://orcid.org/0000-0001-8571-865X"
+    github: jbusecke
