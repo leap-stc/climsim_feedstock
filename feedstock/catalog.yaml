@@ -7,3 +7,6 @@ stores:
   - id: "climsim-lowres-mli"
     name: "ClimSim Lowres mli"
     url: "gs://leap-persistent-ro/data-library/feedstocks/climsim_feedstock/climsim_lowres_mli.zarr"
+  - id: "climsim-lowres-mlo"
+    name: "ClimSim Lowres mlo"
+    url: "gs://leap-persistent-ro/data-library/feedstocks/climsim_feedstock/climsim_lowres_mlo.zarr"
