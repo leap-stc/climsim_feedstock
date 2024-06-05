@@ -210,7 +210,8 @@ climsim_lowres_mli = (
         transfer_target=cache_target,
         max_executors=50,
         concurrency_per_executor=10,
-        fsspec_sync_patch=True,
+        initial_backoff: float = 3.0
+        # fsspec_sync_patch=True,# works but is slow. Testing with fsspec and new backoff retry
         )
     | OpenURLWithFSSpec(cache=None, fsspec_sync_patch=True)
     | OpenWithXarray(
