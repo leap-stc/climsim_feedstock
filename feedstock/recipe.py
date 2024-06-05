@@ -211,7 +211,7 @@ climsim_lowres_mli = (
         max_executors=50,
         concurrency_per_executor=10,
         initial_backoff=3.0,
-        fsspec_sync_patch=True,# works but is slow. Testing with fsspec and new backoff retry
+        fsspec_sync_patch=False,# works but is slow. Testing with fsspec and new backoff retry
         )
     | OpenURLWithFSSpec(cache=None, fsspec_sync_patch=True)
     | OpenWithXarray(
@@ -232,6 +232,8 @@ climsim_lowres_mli = (
     | ConsolidateMetadata()
     | Copy(target=catalog_store_urls["climsim-lowres-mli"])
 )
+
+
 lowres_mlo_make_url = functools.partial(make_url, ds_type="mlo")
 lowres_mlo_pattern = FilePattern(lowres_mlo_make_url, concat_dim)
 climsim_lowres_mlo = (
@@ -241,7 +243,7 @@ climsim_lowres_mlo = (
         max_executors=50,
         concurrency_per_executor=10,
         initial_backoff=3.0,
-        fsspec_sync_patch=True,# works but is slow. Testing with fsspec and new backoff retry
+        fsspec_sync_patch=False,# works but is slow. Testing with fsspec and new backoff retry
         )
     | OpenURLWithFSSpec(cache=None, fsspec_sync_patch=True)
     | OpenWithXarray(
@@ -262,3 +264,5 @@ climsim_lowres_mlo = (
     | ConsolidateMetadata()
     | Copy(target=catalog_store_urls["climsim-lowres-mlo"])
 )
+
+#TODO: Reuse pipeline parts and parameters
