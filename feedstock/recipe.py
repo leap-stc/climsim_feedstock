@@ -208,8 +208,8 @@ climsim_lowres_mli = (
     beam.Create(lowres_mli_pattern.items())
     | CheckpointFileTransfer(
         transfer_target=cache_target,
-        max_executors=50,
-        concurrency_per_executor=10,
+        max_executors=10,
+        concurrency_per_executor=5,
         initial_backoff=3.0,
         fsspec_sync_patch=False,# works but is slow. Testing with fsspec and new backoff retry
         )
@@ -240,8 +240,8 @@ climsim_lowres_mlo = (
     beam.Create(lowres_mlo_pattern.items())
     | CheckpointFileTransfer(
         transfer_target=cache_target,
-        max_executors=50,
-        concurrency_per_executor=10,
+        max_executors=10,
+        concurrency_per_executor=5,
         initial_backoff=3.0,
         fsspec_sync_patch=False,# works but is slow. Testing with fsspec and new backoff retry
         )
