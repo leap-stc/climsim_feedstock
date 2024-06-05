@@ -240,8 +240,8 @@ climsim_lowres_mlo = (
     beam.Create(lowres_mlo_pattern.items())
     | CheckpointFileTransfer(
         transfer_target=cache_target,
-        max_executors=5,
-        concurrency_per_executor=2,
+        max_executors=2,
+        concurrency_per_executor=1,
         fsspec_sync_patch=False,# works but is slow. Testing with fsspec and new backoff retry
         )
     | OpenURLWithFSSpec(cache=None, fsspec_sync_patch=True)
