@@ -1,7 +1,7 @@
 leap-data-management-utils==0.0.12
 git+https://github.com/pangeo-forge/pangeo-forge-recipes@feature/concurrency-control
-#httpfs-sync>=0.0.2
-git+https://github.com/moradology/httpfs-sync.git@feature/pool-reuse
+httpfs-sync>=0.0.2
+#git+https://github.com/moradology/httpfs-sync.git@feature/pool-reuse
 zarr==2.16.1
 gcsfs
 apache-beam[gcp]
