@@ -1,5 +1,5 @@
 leap-data-management-utils==0.0.12
-git+https://github.com/pangeo-forge/pangeo-forge-recipes@a8516101d925c630df2ffd78ad7b759fe54d7f04
+git+https://github.com/pangeo-forge/pangeo-forge-recipes@c306c9518d92ab2c1e8c816228c28d87f4448888
 httpfs-sync>=0.0.2
 #git+https://github.com/moradology/httpfs-sync.git@feature/pool-reuse
 zarr==2.16.1
