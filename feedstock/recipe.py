@@ -16,11 +16,14 @@ from pangeo_forge_recipes.transforms import (
     StoreToZarr,
     ConsolidateMetadata,
     ConsolidateDimensionCoordinates,
+    CheckpointFileTransfer,
 )
+from pangeo_forge_recipes.storage import CacheFSSpecTarget
 
 #######################################
 import datetime as dt
 import functools
+import gcsfs
 
 import cftime
 from pangeo_forge_recipes.patterns import ConcatDim, FilePattern
@@ -193,15 +196,24 @@ class ExpandTimeDimAndAddMetadata(beam.PTransform):
 
 
 times = [t for t in generate_times()]
-# Debug this recipe by running fewer times
-times = times[0:90000]
 concat_dim = ConcatDim("time", keys=times)
+cache_target = CacheFSSpecTarget(
+    fs = gcsfs.GCSFileSystem(),
+    root_path="gs://leap-scratch/data-library/feedstocks/cache_test"
+)
 
 lowres_mli_make_url = functools.partial(make_url, ds_type="mli")
 lowres_mli_pattern = FilePattern(lowres_mli_make_url, concat_dim)
 climsim_lowres_mli = (
     beam.Create(lowres_mli_pattern.items())
-    | OpenURLWithFSSpec(max_concurrency=20)
+    | CheckpointFileTransfer(
+        transfer_target=cache_target,
+        max_executors=10,
+        concurrency_per_executor=2,
+        initial_backoff=3.0,
+        fsspec_sync_patch=False,# works but is slow. Testing with fsspec and new backoff retry
+        )
+    | OpenURLWithFSSpec(cache=None, fsspec_sync_patch=True)
     | OpenWithXarray(
         # FIXME: Get files to open without `copy_to_local=True`
         # Related: what is the filetype? Looks like netcdf3, but for some reason
@@ -220,3 +232,36 @@ climsim_lowres_mli = (
     | ConsolidateMetadata()
     | Copy(target=catalog_store_urls["climsim-lowres-mli"])
 )
+
+
+lowres_mlo_make_url = functools.partial(make_url, ds_type="mlo")
+lowres_mlo_pattern = FilePattern(lowres_mlo_make_url, concat_dim)
+climsim_lowres_mlo = (
+    beam.Create(lowres_mlo_pattern.items())
+    | CheckpointFileTransfer(
+        transfer_target=cache_target,
+        max_executors=5,
+        concurrency_per_executor=20,
+        fsspec_sync_patch=False,# works but is slow. Testing with fsspec and new backoff retry
+        )
+    | OpenURLWithFSSpec(cache=None, fsspec_sync_patch=True)
+    | OpenWithXarray(
+        # FIXME: Get files to open without `copy_to_local=True`
+        # Related: what is the filetype? Looks like netcdf3, but for some reason
+        # `scipy` backend can't open them, and `netcdf4` can?
+        copy_to_local=True,
+        xarray_open_kwargs=dict(engine="netcdf4"),
+    )
+    | ExpandTimeDimAndAddMetadata()
+    | StoreToZarr(
+        store_name="climsim-lowres-mlo.zarr",
+        target_chunks={"time": 600},
+        combine_dims=lowres_mlo_pattern.combine_dim_keys,
+    )
+    | InjectAttrs()
+    | ConsolidateDimensionCoordinates()
+    | ConsolidateMetadata()
+    | Copy(target=catalog_store_urls["climsim-lowres-mlo"])
+)
+
+#TODO: Reuse pipeline parts and parameters

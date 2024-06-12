@@ -8,7 +8,7 @@ c.Bake.prune = 0
 c.Bake.bakery_class = "pangeo_forge_runner.bakery.dataflow.DataflowBakery"
 c.DataflowBakery.use_dataflow_prime = False
 c.DataflowBakery.machine_type = "e2-highmem-4"
-c.DataflowBakery.max_workers = 40
+c.DataflowBakery.max_num_workers = 50
 c.DataflowBakery.use_public_ips = True
 c.DataflowBakery.service_account_email = (
     "leap-community-bakery@leap-pangeo.iam.gserviceaccount.com"
@@ -16,6 +16,6 @@ c.DataflowBakery.service_account_email = (
 c.DataflowBakery.project_id = "leap-pangeo"
 c.DataflowBakery.temp_gcs_location = f"gs://leap-scratch/data-library/feedstocks/temp/{FEEDSTOCK_NAME}"
 c.TargetStorage.fsspec_class = "gcsfs.GCSFileSystem"
-c.InputCacheStorage.fsspec_class = "gcsfs.GCSFileSystem"
+# c.InputCacheStorage.fsspec_class = "gcsfs.GCSFileSystem"
 c.TargetStorage.root_path = f"gs://leap-scratch/data-library/feedstocks/output/{FEEDSTOCK_NAME}/{{job_name}}"
-c.InputCacheStorage.root_path = f"gs://leap-scratch/data-library/feedstocks/cache"
+# c.InputCacheStorage.root_path = f"gs://leap-scratch/data-library/feedstocks/cache"
