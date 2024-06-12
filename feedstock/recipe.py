@@ -199,7 +199,7 @@ times = [t for t in generate_times()]
 concat_dim = ConcatDim("time", keys=times)
 cache_target = CacheFSSpecTarget(
     fs = gcsfs.GCSFileSystem(),
-    root_path="gs://leap-scratch/data-library/feedstocks/cache"
+    root_path="gs://leap-scratch/data-library/feedstocks/cache_test"
 )
 
 lowres_mli_make_url = functools.partial(make_url, ds_type="mli")
